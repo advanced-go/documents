@@ -1,0 +1,21 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+[
+   {
+    "Origin":{
+      "region":"region2",
+      "zone":"Zone1",
+      "sub-zone":"",
+      "host":"www.google.com",
+      "instance-id":""
+    },
+    "version":"v2",
+    "status":"removed",
+    "created-ts":"",
+    "updated-ts":"",
+    "timeout":"3s",
+    "rate-limit":"50",
+    "rate-burst":"5"
+  }
+]

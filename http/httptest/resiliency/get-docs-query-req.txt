@@ -1,0 +1,4 @@
+GET /github/advanced-go/guidance:v2/resiliency?reg=region2&az=zone1&host=www.google.com HTTP/1.1
+Host: localhost
+Content-Location: file://[cwd]/httptest/resiliency/entry-v2.json
+

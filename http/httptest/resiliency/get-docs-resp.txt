@@ -1,0 +1,49 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+[
+  {
+    "Origin": {
+      "region":"region1",
+      "zone":"Zone1",
+      "sub-zone":"",
+      "host":"www.host1.com","instance-id":""
+    },
+    "status":"active",
+    "created-ts":"",
+    "updated-ts":"",
+    "timeout":"100ms",
+    "rate-limit":"125",
+    "rate-burst":"25"
+  },
+  {
+    "Origin":{
+      "region":"region1",
+      "zone":"Zone2",
+      "sub-zone":"",
+      "host":"www.host2.com",
+      "instance-id":""
+    },
+    "status":"inactive",
+    "created-ts":"",
+    "updated-ts":"",
+    "timeout":"250ms",
+    "rate-limit":"100",
+    "rate-burst":"10"
+  },
+  {
+    "Origin":{
+      "region":"region2",
+      "zone":"Zone1",
+      "sub-zone":"",
+      "host":"www.google.com",
+      "instance-id":""
+    },
+    "status":"removed",
+    "created-ts":"",
+    "updated-ts":"",
+    "timeout":"3s",
+    "rate-limit":"50",
+    "rate-burst":"5"
+  }
+]

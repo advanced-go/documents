@@ -1,0 +1,46 @@
+[
+   {
+     "Origin":{
+       "region":"region1",
+       "zone":"Zone1",
+       "sub-zone":"",
+       "host":"www.host1.com",
+       "instance-id":""
+     },
+     "Version":"v2",
+     "Content":"[]"
+   },
+   {
+     "Origin":{
+      "region":"region1",
+      "zone":"Zone2",
+      "sub-zone":"",
+      "host":"www.host1.com",
+      "instance-id":""
+    },
+    "Version":"v2",
+    "Content":"{ \"status\" : \"active\" }"
+   },
+   {
+    "Origin":{
+     "region":"region2",
+     "zone":"Zone1",
+     "sub-zone":"",
+     "host":"www.google.com",
+     "instance-id":""
+   },
+   "Version":"v2",
+   "Content":"{ \"status\" : \"inactive\" }"
+   },
+   {
+    "Origin":  {
+     "region":"region2",
+     "zone":"Zone1",
+     "sub-zone":"",
+     "host":"www.yahoo.com",
+     "instance-id":""
+   },
+   "Version":"v2",
+   "Content":"{ \"status\" : \"removed\" }"
+   }
+]
