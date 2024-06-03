@@ -1,4 +1,4 @@
-package resiliency
+package resiliency1
 
 import (
 	"encoding/json"
@@ -7,11 +7,11 @@ import (
 	"net/url"
 )
 
-var testDocs = []Document{
-	{Origin: core.Origin{Region: "region1", Zone: "Zone1", Host: "www.host1.com"}, Version: "v2", Content: "[]"},
-	{Origin: core.Origin{Region: "region1", Zone: "Zone2", Host: "www.host1.com"}, Version: "v2", Content: "{ \"status\" : \"active\" }"},
-	{Origin: core.Origin{Region: "region2", Zone: "Zone1", Host: "www.google.com"}, Version: "v2", Content: "{ \"status\" : \"inactive\" }"},
-	{Origin: core.Origin{Region: "region2", Zone: "Zone1", Host: "www.yahoo.com"}, Version: "v2", Content: "{ \"status\" : \"removed\" }"},
+var testDocs = []Entry{
+	{Region: "region1", Zone: "Zone1", Host: "www.host1.com", Status: "active", Timeout: 500, RateLimit: 100, RateBurst: 10},
+	{Region: "region1", Zone: "Zone2", Host: "www.host1.com", Status: "inactive", Timeout: 1000, RateLimit: 100, RateBurst: 10},
+	{Region: "region2", Zone: "Zone1", Host: "www.google.com", Status: "active", Timeout: 800, RateLimit: 100, RateBurst: 10},
+	{Region: "region2", Zone: "Zone1", Host: "www.yahoo.com", Status: "active", Timeout: 2000, RateLimit: 100, RateBurst: 10},
 }
 
 func ExampleAddDocuments() {

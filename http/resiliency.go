@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/advanced-go/documents/resiliency"
 	"github.com/advanced-go/stdlib/core"
 	"github.com/advanced-go/stdlib/httpx"
 	"net/http"
@@ -26,7 +25,7 @@ func resiliencyExchange(r *http.Request) (*http.Response, *core.Status) {
 func get(ctx context.Context, h http.Header, values url.Values) (resp *http.Response, status *core.Status) {
 	var docs any
 
-	docs, status = resiliency.Get(ctx, h, values)
+	docs, status = resiliency1.Get(ctx, h, values)
 	if !status.OK() {
 		return httpx.NewResponseWithStatus(status, status.Err)
 	}
@@ -40,6 +39,6 @@ func get(ctx context.Context, h http.Header, values url.Values) (resp *http.Resp
 }
 
 func put(r *http.Request) (resp *http.Response, status *core.Status) {
-	status = resiliency.Put[*http.Request](r.Context(), r.Header, r)
+	status = resiliency1.Put[*http.Request](r.Context(), r.Header, r)
 	return httpx.NewResponseWithStatus(status, status.Err)
 }
