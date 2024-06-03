@@ -34,7 +34,7 @@ func Get(ctx context.Context, h http.Header, url *url.URL) ([]Entry, *core.Statu
 	p := uri.Uproot(url.Path)
 	switch p.Resource {
 	case module.ResiliencyResource:
-		return getDocuments(ctx, NewRequest(http.MethodGet, p.Path, routeName, core.AddRequestId(h), timeout), url.Query())
+		return getDocuments(ctx, NewRequest(http.MethodGet, p.Path+"?"+url.Query().Encode(), routeName, core.AddRequestId(h), timeout), url.Query())
 	default:
 		return nil, errorInvalidURL(url.Path)
 	}

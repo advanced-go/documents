@@ -22,6 +22,6 @@ func NewRequest(method, resource, routeName string, h http.Header, duration time
 	r.routeName = routeName
 	r.h = h
 	r.duration = duration
-	r.uri = fmt.Sprintf("documents://host-name/storge/%v", resource)
+	r.uri = fmt.Sprintf("documents://host-name/%v", resource)
 	return r
 }
