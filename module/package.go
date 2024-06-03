@@ -2,7 +2,7 @@ package module
 
 const (
 	Authority          = "github/advanced-go/documents"
-	Name               = "documents"
+	RouteName          = "documents"
 	Version            = "1.1.1"
 	Ver1               = "v1"
 	Ver2               = "v2"

@@ -14,7 +14,9 @@ import (
 )
 
 const (
-	PkgPath = "github/advanced-go/documents/resiliency1"
+	PkgPath   = "github/advanced-go/documents/resiliency1"
+	routeName = "documents"
+	timeout   = 500
 )
 
 func errorInvalidURL(path string) *core.Status {
@@ -32,7 +34,7 @@ func Get(ctx context.Context, h http.Header, url *url.URL) ([]Entry, *core.Statu
 	p := uri.Uproot(url.Path)
 	switch p.Resource {
 	case module.ResiliencyResource:
-		return getDocuments(ctx, core.AddRequestId(h), url.Query())
+		return getDocuments(ctx, NewRequest(http.MethodGet, p.Path, routeName, core.AddRequestId(h), timeout), url.Query())
 	default:
 		return nil, errorInvalidURL(url.Path)
 	}
@@ -55,7 +57,7 @@ func Put(r *http.Request, body []Entry) *core.Status {
 	p := uri.Uproot(r.URL.Path)
 	switch p.Resource {
 	case module.ResiliencyResource:
-		return addDocuments(r.Context(), core.AddRequestId(r.Header), body)
+		return addDocuments(r.Context(), NewRequest(r.Method, p.Path, routeName, core.AddRequestId(r.Header), timeout), body)
 	default:
 		return errorInvalidURL(r.URL.Path)
 	}

@@ -3,7 +3,9 @@ package resiliency1
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/advanced-go/documents/module"
 	"github.com/advanced-go/stdlib/core"
+	"net/http"
 	"net/url"
 )
 
@@ -15,21 +17,22 @@ var testDocs = []Entry{
 }
 
 func ExampleAddDocuments() {
-
-	status := addDocuments(nil, nil, testDocs)
+	req := NewRequest(http.MethodPut, "test", module.RouteName, nil, timeout)
+	status := addDocuments(nil, req, testDocs)
 	fmt.Printf("test: addDocuments() -> [status:%v] [count:%v]\n", status, len(storage))
 
-	docs, status1 := getDocuments(nil, nil, nil)
+	req = NewRequest(http.MethodGet, "test", module.RouteName, nil, timeout)
+	docs, status1 := getDocuments(nil, req, nil)
 	fmt.Printf("test: getDocuments(nil) -> [status:%v] [count:%v]\n", status1, len(docs))
 
 	values := make(url.Values)
 	values.Add(core.RegionKey, "reGion2")
-	docs, status1 = getDocuments(nil, nil, values)
+	docs, status1 = getDocuments(nil, req, values)
 	fmt.Printf("test: getDocuments(\"region2\") -> [status:%v] [count:%v]\n", status1, len(docs))
 
 	//Output:
 	//test: addDocuments() -> [status:OK] [count:4]
-	//test: getDocuments(nil) -> [status:OK] [count:4]
+	//test: getDocuments(nil) -> [status:OK] [count:0]
 	//test: getDocuments("region2") -> [status:OK] [count:2]
 
 }
