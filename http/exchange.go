@@ -13,7 +13,7 @@ import (
 // https://localhost:8081/github/advanced-go/documents:v1/resiliency?reg=region1&az=zone1&host=www.google.com
 
 const (
-	resiliencyPath = "resiliency1"
+	resiliencyPath = "resiliency"
 )
 
 var authorityResponse = httpx.NewAuthorityResponse(module.Authority)

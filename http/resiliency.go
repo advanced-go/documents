@@ -40,6 +40,6 @@ func get(ctx context.Context, h http.Header, url *url.URL) (resp *http.Response,
 }
 
 func put(r *http.Request) (resp *http.Response, status *core.Status) {
-	status = resiliency1.Put[*http.Request](r, nil)
+	status = resiliency1.Put(r, nil)
 	return httpx.NewResponseWithStatus(status, status.Err)
 }

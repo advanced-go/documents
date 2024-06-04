@@ -25,7 +25,7 @@ func Test_get(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotResp, gotStatus := get(tt.args.ctx, tt.args.h, tt.args.values)
+			gotResp, gotStatus := get(tt.args.ctx, tt.args.h, nil)
 			if !reflect.DeepEqual(gotResp, tt.wantResp) {
 				t.Errorf("get() gotResp = %v, want %v", gotResp, tt.wantResp)
 			}
