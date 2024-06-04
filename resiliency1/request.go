@@ -25,3 +25,15 @@ func NewRequest(method, resource, routeName string, h http.Header, duration time
 	r.uri = fmt.Sprintf("documents://host-name/%v", resource)
 	return r
 }
+
+func (r *request) Url() string {
+	return r.uri
+}
+
+func (r *request) Method() string {
+	return r.method
+}
+
+func (r *request) Header() http.Header {
+	return r.h
+}

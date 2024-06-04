@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/advanced-go/documents/module"
+	"github.com/advanced-go/stdlib/access"
 	"github.com/advanced-go/stdlib/core"
 	json2 "github.com/advanced-go/stdlib/json"
 	"github.com/advanced-go/stdlib/uri"
@@ -23,6 +24,13 @@ func errorInvalidURL(path string) *core.Status {
 	return core.NewStatusError(core.StatusInvalidArgument, errors.New(fmt.Sprintf("invalid argument: URL path is invalid %v", path)))
 }
 
+func buildURL(path string, values url.Values) string {
+	if values == nil {
+		return fmt.Sprintf("docs://docs-host.com/%v", path)
+	}
+	return fmt.Sprintf("docs://docs-host.com/%v?%v", path, values.Encode())
+}
+
 // Get - resource GET
 func Get(ctx context.Context, h http.Header, url *url.URL) ([]Entry, *core.Status) {
 	if url == nil || !strings.HasPrefix(url.Path, "/"+module.Authority) {
@@ -34,7 +42,7 @@ func Get(ctx context.Context, h http.Header, url *url.URL) ([]Entry, *core.Statu
 	p := uri.Uproot(url.Path)
 	switch p.Resource {
 	case module.ResiliencyResource:
-		return getDocuments(ctx, NewRequest(http.MethodGet, p.Path+"?"+url.Query().Encode(), routeName, core.AddRequestId(h), timeout), url.Query())
+		return getDocuments(ctx, access.NewRequest(http.MethodGet, buildURL(p.Path, url.Query()), core.AddRequestId(h), routeName, timeout), url.Query())
 	default:
 		return nil, errorInvalidURL(url.Path)
 	}
@@ -57,7 +65,7 @@ func Put(r *http.Request, body []Entry) *core.Status {
 	p := uri.Uproot(r.URL.Path)
 	switch p.Resource {
 	case module.ResiliencyResource:
-		return addDocuments(r.Context(), NewRequest(r.Method, p.Path, routeName, core.AddRequestId(r.Header), timeout), body)
+		return addDocuments(r.Context(), access.NewRequest(r.Method, buildURL(p.Path, nil), core.AddRequestId(r.Header), routeName, timeout), body)
 	default:
 		return errorInvalidURL(r.URL.Path)
 	}

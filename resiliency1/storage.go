@@ -2,6 +2,7 @@ package resiliency1
 
 import (
 	"context"
+	"github.com/advanced-go/stdlib/access"
 	"github.com/advanced-go/stdlib/core"
 	"net/url"
 	"time"
@@ -9,7 +10,7 @@ import (
 
 var storage []Entry
 
-func getDocuments(_ context.Context, req *request, values url.Values) (docs []Entry, status *core.Status) {
+func getDocuments(_ context.Context, req access.Request, values url.Values) (docs []Entry, status *core.Status) {
 	if len(storage) == 0 {
 		return nil, core.StatusNotFound()
 	}
@@ -27,17 +28,17 @@ func getDocuments(_ context.Context, req *request, values url.Values) (docs []En
 	} else {
 		status = core.StatusOK()
 	}
-	log(start, time.Since(start), req, status, "")
+	access.LogEgress(start, time.Since(start), req, status, req.RouteName(), "", req.Duration(), "")
 	return docs, status
 }
 
-func addDocuments(_ context.Context, req *request, docs []Entry) *core.Status {
+func addDocuments(_ context.Context, req access.Request, docs []Entry) *core.Status {
 	var start = time.Now().UTC()
 
 	if len(docs) > 0 {
 		storage = append(storage, docs...)
 	}
-	log(start, time.Since(start), req, core.StatusOK(), "")
+	access.LogEgress(start, time.Since(start), req, core.StatusOK(), req.RouteName(), "", req.Duration(), "")
 	return core.StatusOK()
 }
 

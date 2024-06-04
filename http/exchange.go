@@ -4,12 +4,10 @@ import (
 	"errors"
 	"fmt"
 	"github.com/advanced-go/documents/module"
-	"github.com/advanced-go/stdlib/controller"
 	"github.com/advanced-go/stdlib/core"
 	"github.com/advanced-go/stdlib/httpx"
 	"net/http"
 	"strings"
-	"time"
 )
 
 // https://localhost:8081/github/advanced-go/documents:v1/resiliency?reg=region1&az=zone1&host=www.google.com
@@ -19,13 +17,6 @@ const (
 )
 
 var authorityResponse = httpx.NewAuthorityResponse(module.Authority)
-
-// Controllers - egress controllers
-func Controllers() []*controller.Controller {
-	return []*controller.Controller{
-		controller.NewController("google-search", controller.NewPrimaryResource("www.google.com", "", time.Second*2, "", nil), nil),
-	}
-}
 
 // Exchange - HTTP exchange
 func Exchange(r *http.Request) (*http.Response, *core.Status) {
