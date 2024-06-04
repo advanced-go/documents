@@ -28,7 +28,7 @@ func getDocuments(_ context.Context, req *request, values url.Values) (docs []En
 		status = core.StatusOK()
 	}
 	log(start, time.Since(start), req, status, "")
-	return docs, core.StatusOK()
+	return docs, status
 }
 
 func addDocuments(_ context.Context, req *request, docs []Entry) *core.Status {
