@@ -19,7 +19,7 @@ func ExamplePut() {
 
 func ExampleGet() {
 	url, _ := url2.Parse("http://localhost:8081/github/advanced-go/documents:resiliency?region=*")
-	entries, status := Get(nil, nil, url)
+	entries, status := Get(nil, nil, url.Query())
 	fmt.Printf("test: Get() -> [status:%v] [entries:%v]\n", status, len(entries))
 
 	//Output:

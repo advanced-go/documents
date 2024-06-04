@@ -30,7 +30,7 @@ func Exchange(r *http.Request) (*http.Response, *core.Status) {
 	core.AddRequestId(r.Header)
 	switch strings.ToLower(p.Resource) {
 	case resiliencyPath:
-		return resiliencyExchange(r, extract(r.URL, p))
+		return resiliencyExchange(r)
 	case core.VersionPath:
 		return httpx.NewVersionResponse(module.Version), core.StatusOK()
 	case core.AuthorityPath:

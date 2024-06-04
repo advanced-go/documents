@@ -4,14 +4,11 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/advanced-go/documents/module"
 	"github.com/advanced-go/stdlib/access"
 	"github.com/advanced-go/stdlib/core"
 	json2 "github.com/advanced-go/stdlib/json"
-	"github.com/advanced-go/stdlib/uri"
 	"net/http"
 	"net/url"
-	"strings"
 )
 
 const (
@@ -24,34 +21,22 @@ func errorInvalidURL(path string) *core.Status {
 	return core.NewStatusError(core.StatusInvalidArgument, errors.New(fmt.Sprintf("invalid argument: URL path is invalid %v", path)))
 }
 
-func buildURL(path string, values url.Values) string {
+func buildURL(values url.Values) string {
 	if values == nil {
-		return fmt.Sprintf("docs://docs-host.com/%v", path)
+		return fmt.Sprintf("docs://docs-host.com/documents/resiliency")
 	}
-	return fmt.Sprintf("docs://docs-host.com/%v?%v", path, values.Encode())
+	return fmt.Sprintf("docs://docs-host.com/documents/resiliency?%v", values.Encode())
 }
 
 // Get - resource GET
-func Get(ctx context.Context, h http.Header, url *url.URL) ([]Entry, *core.Status) {
-	if url == nil || !strings.HasPrefix(url.Path, "/"+module.Authority) {
-		return nil, core.NewStatusError(core.StatusInvalidArgument, errors.New(fmt.Sprintf("invalid or nil URL")))
-	}
-	if url.Query() == nil {
-		return nil, core.NewStatusError(core.StatusInvalidArgument, errors.New(fmt.Sprintf("query arguments are nil")))
-	}
-	p := uri.Uproot(url.Path)
-	switch p.Resource {
-	case module.ResiliencyResource:
-		return getDocuments(ctx, access.NewRequest(http.MethodGet, buildURL(p.Path, url.Query()), core.AddRequestId(h), routeName, timeout), url.Query())
-	default:
-		return nil, errorInvalidURL(url.Path)
-	}
+func Get(ctx context.Context, h http.Header, values url.Values) ([]Entry, *core.Status) {
+	return getDocuments(ctx, access.NewRequest(http.MethodGet, buildURL(values), core.AddRequestId(h), routeName, timeout), values)
 }
 
 // Put - resource PUT, with optional content override
 func Put(r *http.Request, body []Entry) *core.Status {
-	if r == nil || r.URL == nil || !strings.HasPrefix(r.URL.Path, "/"+module.Authority) {
-		return core.NewStatusError(core.StatusInvalidArgument, errors.New("invalid URL"))
+	if r == nil {
+		return core.NewStatusError(core.StatusInvalidArgument, errors.New("invalid argument: request is nil"))
 	}
 	if body == nil {
 		content, status := json2.New[[]Entry](r.Body, r.Header)
@@ -62,11 +47,5 @@ func Put(r *http.Request, body []Entry) *core.Status {
 		}
 		body = content
 	}
-	p := uri.Uproot(r.URL.Path)
-	switch p.Resource {
-	case module.ResiliencyResource:
-		return addDocuments(r.Context(), access.NewRequest(r.Method, buildURL(p.Path, nil), core.AddRequestId(r.Header), routeName, timeout), body)
-	default:
-		return errorInvalidURL(r.URL.Path)
-	}
+	return addDocuments(r.Context(), access.NewRequest(r.Method, buildURL(nil), core.AddRequestId(r.Header), routeName, timeout), body)
 }

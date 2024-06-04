@@ -11,22 +11,22 @@ import (
 	"net/url"
 )
 
-func resiliencyExchange(r *http.Request, url *url.URL) (*http.Response, *core.Status) {
+func resiliencyExchange(r *http.Request) (*http.Response, *core.Status) {
 	switch r.Method {
 	case http.MethodGet:
-		return get(r.Context(), r.Header, r.URL)
+		return get(r.Context(), r.Header, r.URL.Query())
 	case http.MethodPut:
-		return nil, nil
+		return put(r)
 	default:
 		status := core.NewStatusError(http.StatusBadRequest, errors.New(fmt.Sprintf("error invalid method: [%v]", r.Method)))
 		return httpx.NewResponseWithStatus(status, status.Err)
 	}
 }
 
-func get(ctx context.Context, h http.Header, url *url.URL) (resp *http.Response, status *core.Status) {
+func get(ctx context.Context, h http.Header, values url.Values) (resp *http.Response, status *core.Status) {
 	var docs any
 
-	docs, status = resiliency1.Get(ctx, h, url)
+	docs, status = resiliency1.Get(ctx, h, values)
 	if !status.OK() {
 		return httpx.NewResponseWithStatus(status, status.Err)
 	}

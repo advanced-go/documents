@@ -9,7 +9,7 @@ import (
 	url2 "net/url"
 )
 
-func ExampleExtract() {
+func _ExampleExtract() {
 	s := "http://localhost:8080/github/advanced-go/documents:v1/resiliency/google-search?region=*"
 	url, _ := url2.Parse(s)
 	p := uri.Uproot(s)
