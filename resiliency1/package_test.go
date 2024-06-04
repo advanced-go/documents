@@ -7,7 +7,7 @@ import (
 )
 
 func ExamplePut() {
-	uri := "http://localhost:8081/github/advanced-go/documents:resiliency?region=*"
+	uri := "http://localhost:8081/github/advanced-go/documents:resiliency"
 	req, _ := http.NewRequest(http.MethodPut, uri, nil)
 	status := Put(req, testDocs)
 	fmt.Printf("test: Put() -> [status:%v]\n", status)
