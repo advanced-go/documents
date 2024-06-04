@@ -11,7 +11,7 @@ import (
 	"net/url"
 )
 
-func resiliencyExchange(r *http.Request) (*http.Response, *core.Status) {
+func resiliencyExchange(r *http.Request, url *url.URL) (*http.Response, *core.Status) {
 	switch r.Method {
 	case http.MethodGet:
 		return get(r.Context(), r.Header, r.URL)

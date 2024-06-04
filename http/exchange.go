@@ -6,7 +6,9 @@ import (
 	"github.com/advanced-go/documents/module"
 	"github.com/advanced-go/stdlib/core"
 	"github.com/advanced-go/stdlib/httpx"
+	"github.com/advanced-go/stdlib/uri"
 	"net/http"
+	url2 "net/url"
 	"strings"
 )
 
@@ -28,7 +30,7 @@ func Exchange(r *http.Request) (*http.Response, *core.Status) {
 	core.AddRequestId(r.Header)
 	switch strings.ToLower(p.Resource) {
 	case resiliencyPath:
-		return resiliencyExchange(r)
+		return resiliencyExchange(r, extract(r.URL, p))
 	case core.VersionPath:
 		return httpx.NewVersionResponse(module.Version), core.StatusOK()
 	case core.AuthorityPath:
@@ -39,4 +41,16 @@ func Exchange(r *http.Request) (*http.Response, *core.Status) {
 		status = core.NewStatusError(http.StatusNotFound, errors.New(fmt.Sprintf("error invalid URI, resource not found: [%v]", p.Resource)))
 		return httpx.NewResponseWithStatus(status, status.Err)
 	}
+}
+
+func extract(u *url2.URL, p *uri.Parsed) *url2.URL {
+	if u == nil || p == nil {
+		return u
+	}
+	raw := p.Path
+	if u.RawQuery != "" {
+		raw += "?" + u.RawQuery
+	}
+	newUrl, _ := url2.Parse(raw)
+	return newUrl
 }
