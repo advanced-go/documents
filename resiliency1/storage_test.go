@@ -18,19 +18,19 @@ var testDocs = []Entry{
 
 func ExampleAddDocuments() {
 	//req := NewRequest(http.MethodPut, "test", module.RouteName, nil, timeout)
-	req := access.NewRequest(http.MethodPut, "", nil, routeName, timeout)
+	req := access.NewRequest(http.MethodPut, "", nil)
 
-	status := addDocuments(nil, req, testDocs)
-	fmt.Printf("test: addDocuments() -> [status:%v] [count:%v]\n", status, len(storage))
+	h, status := addDocuments(nil, req, testDocs)
+	fmt.Printf("test: addDocuments() -> [status:%v] [header:%v] [count:%v]\n", status, h, len(storage))
 
 	//req = NewRequest(http.MethodGet, "test", module.RouteName, nil, timeout)
-	docs, status1 := getDocuments(nil, req, nil)
-	fmt.Printf("test: getDocuments(nil) -> [status:%v] [count:%v]\n", status1, len(docs))
+	docs, h, status1 := getDocuments(nil, req, nil)
+	fmt.Printf("test: getDocuments(nil) -> [status:%v] [header:%v] [count:%v]\n", status1, h, len(docs))
 
 	values := make(url.Values)
 	values.Add(core.RegionKey, "reGion2")
-	docs, status1 = getDocuments(nil, req, values)
-	fmt.Printf("test: getDocuments(\"region2\") -> [status:%v] [count:%v]\n", status1, len(docs))
+	docs, h, status1 = getDocuments(nil, req, values)
+	fmt.Printf("test: getDocuments(\"region2\") -> [status:%v] [header:%v] [count:%v]\n", status1, h, len(docs))
 
 	//Output:
 	//test: addDocuments() -> [status:OK] [count:4]
