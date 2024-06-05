@@ -16,7 +16,6 @@ func getDocuments(_ context.Context, req access.Request, values url.Values) (doc
 		return nil, nil, core.StatusNotFound()
 	}
 	var start = time.Now().UTC()
-	h2 = make(http.Header)
 
 	filter := core.NewOrigin(values)
 	for _, item := range storage {
@@ -36,13 +35,12 @@ func getDocuments(_ context.Context, req access.Request, values url.Values) (doc
 
 func addDocuments(_ context.Context, req access.Request, docs []Entry) (http.Header, *core.Status) {
 	var start = time.Now().UTC()
-	h2 := make(http.Header)
 
 	if len(docs) > 0 {
 		storage = append(storage, docs...)
 	}
 	access.LogEgress(start, time.Since(start), req, core.StatusOK(), routeName, "", timeout, "")
-	return h2, core.StatusOK()
+	return nil, core.StatusOK()
 }
 
 func setTimeout(ctx context.Context, duration time.Duration) (context.Context, context.CancelFunc) {

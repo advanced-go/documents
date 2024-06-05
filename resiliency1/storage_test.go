@@ -33,10 +33,10 @@ func ExampleAddDocuments() {
 	fmt.Printf("test: getDocuments(\"region2\") -> [status:%v] [header:%v] [count:%v]\n", status1, h, len(docs))
 
 	//Output:
-	//test: addDocuments() -> [status:OK] [count:4]
-	//test: getDocuments(nil) -> [status:Not Found] [count:0]
-	//test: getDocuments("region2") -> [status:OK] [count:2]
-
+	//test: addDocuments() -> [status:OK] [header:map[]] [count:4]
+	//test: getDocuments(nil) -> [status:Not Found] [header:map[]] [count:0]
+	//test: getDocuments("region2") -> [status:OK] [header:map[]] [count:2]
+	
 }
 
 func _ExampleOutput() {

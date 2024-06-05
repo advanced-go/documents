@@ -43,12 +43,16 @@ func get[E core.ErrorHandler](ctx context.Context, h http.Header, values url.Val
 		entries, h2, status = resiliency1.Get(ctx, h, values)
 	default:
 		status = core.NewStatusError(http.StatusBadRequest, errors.New(fmt.Sprintf("invalid version: [%v]", h.Get(core.XVersion))))
+
+	}
+	if h2 == nil {
 		h2 = make(http.Header)
-		h2.Add(httpx.ContentType, httpx.ContentTypeText)
 	}
 	if !status.OK() {
+		h2.Add(httpx.ContentType, httpx.ContentTypeText)
 		return httpx.NewResponse[E](status.HttpCode(), h2, status.Err)
 	}
+	h2.Add(httpx.ContentType, httpx.ContentTypeJson)
 	return httpx.NewResponse[E](status.HttpCode(), h2, entries)
 }
 
@@ -60,8 +64,10 @@ func put[E core.ErrorHandler](r *http.Request, version string) (resp *http.Respo
 		h2, status = resiliency1.Put(r, nil)
 	default:
 		status = core.NewStatusError(http.StatusBadRequest, errors.New(fmt.Sprintf("invalid version: [%v]", r.Header.Get(core.XVersion))))
-		h2 = make(http.Header)
-		h2.Add(httpx.ContentType, httpx.ContentTypeText)
 	}
+	if h2 == nil {
+		h2 = make(http.Header)
+	}
+	h2.Add(httpx.ContentType, httpx.ContentTypeText)
 	return httpx.NewResponse[E](status.HttpCode(), h2, status.Err)
 }
