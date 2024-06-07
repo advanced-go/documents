@@ -29,7 +29,7 @@ func getDocuments(_ context.Context, req access.Request, values url.Values) (doc
 	} else {
 		status = core.StatusOK()
 	}
-	access.LogEgress(start, time.Since(start), req, status, routeName, "", timeout, "")
+	access.LogEgress(start, time.Since(start), req, status, routeName, "", timeout, 0, 0, "")
 	return docs, h2, status
 }
 
@@ -39,7 +39,7 @@ func addDocuments(_ context.Context, req access.Request, docs []Entry) (http.Hea
 	if len(docs) > 0 {
 		storage = append(storage, docs...)
 	}
-	access.LogEgress(start, time.Since(start), req, core.StatusOK(), routeName, "", timeout, "")
+	access.LogEgress(start, time.Since(start), req, core.StatusOK(), routeName, "", timeout, 0, 0, "")
 	return nil, core.StatusOK()
 }
 
