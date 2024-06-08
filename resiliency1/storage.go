@@ -2,6 +2,7 @@ package resiliency1
 
 import (
 	"context"
+	"github.com/advanced-go/documents/module"
 	"github.com/advanced-go/stdlib/access"
 	"github.com/advanced-go/stdlib/core"
 	"net/http"
@@ -29,7 +30,7 @@ func getDocuments(_ context.Context, req access.Request, values url.Values) (doc
 	} else {
 		status = core.StatusOK()
 	}
-	access.LogEgress(start, time.Since(start), req, status, routeName, "", timeout, 0, 0, "")
+	access.LogEgress(start, time.Since(start), req, status, module.Authority, routeName, "", timeout, 0, 0, "")
 	return docs, h2, status
 }
 
@@ -39,7 +40,7 @@ func addDocuments(_ context.Context, req access.Request, docs []Entry) (http.Hea
 	if len(docs) > 0 {
 		storage = append(storage, docs...)
 	}
-	access.LogEgress(start, time.Since(start), req, core.StatusOK(), routeName, "", timeout, 0, 0, "")
+	access.LogEgress(start, time.Since(start), req, core.StatusOK(), module.Authority, routeName, "", timeout, 0, 0, "")
 	return nil, core.StatusOK()
 }
 
