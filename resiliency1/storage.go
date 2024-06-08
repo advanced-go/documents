@@ -2,15 +2,30 @@ package resiliency1
 
 import (
 	"context"
+	"fmt"
 	"github.com/advanced-go/documents/module"
 	"github.com/advanced-go/stdlib/access"
 	"github.com/advanced-go/stdlib/core"
+	"github.com/advanced-go/stdlib/json"
 	"net/http"
 	"net/url"
 	"time"
 )
 
+const (
+	entriesJson = "file://[cwd]/resiliency1test/documents-v1.json"
+)
+
 var storage []Entry
+
+func init() {
+	var status *core.Status
+	storage, status = json.New[[]Entry](entriesJson, nil)
+	if !status.OK() {
+		fmt.Printf("initializeDocuments.New() -> [status:%v]\n", status)
+		return
+	}
+}
 
 func getDocuments(_ context.Context, req access.Request, values url.Values) (docs []Entry, h2 http.Header, status *core.Status) {
 	if len(storage) == 0 {

@@ -23,6 +23,6 @@ func ExampleGet() {
 	fmt.Printf("test: Get() -> [status:%v] [header:%v] [entries:%v]\n", status, h, len(entries))
 
 	//Output:
-	//test: Get() -> [status:OK] [header:map[]] [entries:4]
+	//test: Get() -> [status:OK] [header:map[]] [entries:8]
 
 }
