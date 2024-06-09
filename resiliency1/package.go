@@ -13,7 +13,7 @@ import (
 
 const (
 	PkgPath   = "github/advanced-go/documents/resiliency1"
-	routeName = "documents"
+	routeName = "elastic"
 	timeout   = 500
 )
 
