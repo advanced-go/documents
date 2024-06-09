@@ -9,13 +9,6 @@ import (
 	"net/url"
 )
 
-var testDocs = []Entry{
-	{Region: "region1", Zone: "Zone1", Host: "www.host1.com", Status: "active", Timeout: 500, RateLimit: 100, RateBurst: 10},
-	{Region: "region1", Zone: "Zone2", Host: "www.host1.com", Status: "inactive", Timeout: 1000, RateLimit: 100, RateBurst: 10},
-	{Region: "region2", Zone: "Zone1", Host: "www.google.com", Status: "active", Timeout: 800, RateLimit: 100, RateBurst: 10},
-	{Region: "region2", Zone: "Zone1", Host: "www.yahoo.com", Status: "active", Timeout: 2000, RateLimit: 100, RateBurst: 10},
-}
-
 func ExampleGetDocuments() {
 	values := make(url.Values)
 	values.Add(core.RegionKey, "*")
@@ -39,7 +32,7 @@ func ExampleAddDocuments() {
 	//req := NewRequest(http.MethodPut, "test", module.RouteName, nil, timeout)
 	req := access.NewRequest(http.MethodPut, "", nil)
 
-	h, status := addDocuments(nil, req, testDocs)
+	h, status := addDocuments(nil, req, storage)
 	fmt.Printf("test: addDocuments() -> [status:%v] [header:%v] [count:%v]\n", status, h, len(storage))
 
 	req = access.NewRequest(http.MethodGet, "test", nil)
@@ -55,7 +48,7 @@ func ExampleAddDocuments() {
 }
 
 func _ExampleOutput() {
-	buff, err := json.Marshal(testDocs)
+	buff, err := json.Marshal(storage)
 	fmt.Printf("%v\n", err)
 	fmt.Printf("%v\n", string(buff))
 

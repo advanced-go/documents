@@ -9,7 +9,7 @@ import (
 func ExamplePut() {
 	uri := "http://localhost:8081/github/advanced-go/documents:resiliency"
 	req, _ := http.NewRequest(http.MethodPut, uri, nil)
-	h, status := Put(req, testDocs)
+	h, status := Put(req, storage)
 	fmt.Printf("test: Put() -> [status:%v] [header:%v]\n", status, h)
 
 	//Output:
